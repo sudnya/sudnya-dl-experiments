@@ -9,7 +9,7 @@ function Matrix (dataBody, beginOffset, matrixDimension, stride) {
    };
 
     this.getElements = function() {
-        return this.matrixSize.product();
+        return this.matrixDimension.product();
     }   
 
 }

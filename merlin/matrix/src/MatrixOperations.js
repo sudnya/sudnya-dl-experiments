@@ -1,5 +1,7 @@
 var binaryOp = function(left, right, op) {
-    assert left.size() == right.size()
+    
+    assert(left.size() == right.size());
+
     var result = MatrixFactory.createFromSize(left.size());
     binaryOpInPlace(result, left, right, op);
     return result;
