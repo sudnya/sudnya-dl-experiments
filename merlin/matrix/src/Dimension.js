@@ -35,9 +35,22 @@ function Dimension(contents) {
     }
 
     this.get = function(index) {
-        assert (index > -1);
-        assert (index < this.size);
-        return this.dimension[i];
+        //assert (index > -1);
+        //assert (index < this.size);
+        return this.dimensions[index];
+    }
+
+    this.equals = function(that) {
+        var retVal = true;
+        if (this.size() != that.size()) {
+            retVal = false;
+        }
+        for (var i = 0; i < this.size(); ++i) {
+            if (this.get(i) != that.get(i)) {
+                retVal = false;
+            }
+        }
+        return retVal;
     }
 }
 
