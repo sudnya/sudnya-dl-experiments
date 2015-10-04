@@ -10,20 +10,33 @@ function Dimension(contents) {
     }
 
     this.subtract = function(right) {
-        var result = new Dimension();
+        var result = new Dimension([]);
 
-        for (var i = 0; i < result.size(); ++i) {
-            result.pushBack(i, this.get(i) - right.get(i));
+        for (var i = 0; i < this.size(); ++i) {
+            result.pushBack(this.get(i) - right.get(i));
         }
 
         return result;
     }
 
     this.multiply = function(right) {
+        var result = new Dimension([]);
         assert (this.size() == right.size());
         for (var i = 0; i < this.size(); ++i) {
-            this.dimensions[i] = this.dimensions[i] * right.dimensions[i];
+            result.pushBack(this.dimensions[i] * right.dimensions[i]);
         }
+        
+        return result;
+    }
+
+    this.divide = function(right) {
+        var result = new Dimension([]);
+        assert (this.size() == right.size());
+        for (var i = 0; i < this.size(); ++i) {
+            result.pushBack(this.dimensions[i] / right.dimensions[i]);
+        }
+        
+        return result;
     }
 
     this.pushBack = function(element) {
@@ -35,8 +48,8 @@ function Dimension(contents) {
     }
 
     this.get = function(index) {
-        //assert (index > -1);
-        //assert (index < this.size);
+        assert (index > -1);
+        assert (index < this.size());
         return this.dimensions[index];
     }
 

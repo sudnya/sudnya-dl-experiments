@@ -16,16 +16,20 @@ function Matrix (dataBody, beginOffset, matrixDimension, stride) {
         return this.matrixDimension.product();
     }   
 
+    this.getData = function() {
+        return this.data;
+    }
+
     this.get = function(i) {
         var linear = this.dimensionToLinear(i);
 
-        return this.data[linear];
+        return this.data[this.dataBegin + linear];
     }
 
     this.set = function(i, v) {
         var linear = this.dimensionToLinear(i);
 
-        this.data[linear] = v;
+        this.data[this.dataBegin + linear] = v;
     }
 
     this.linearToDimension = function(linear) {

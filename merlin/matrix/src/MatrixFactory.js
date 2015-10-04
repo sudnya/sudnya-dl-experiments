@@ -25,4 +25,8 @@ MatrixFactory.createFromSize = function(size) {
     return MatrixFactory.createFromDataOffsetSizeStride(createArrayOfZeros(size.product()), 0, size, computeStrideFromSize(size));
 }
 
+MatrixFactory.createFromSizeAndData = function(size, data) {
+    return MatrixFactory.createFromDataOffsetSizeStride(data, 0, size, computeStrideFromSize(size));
+}
+
 

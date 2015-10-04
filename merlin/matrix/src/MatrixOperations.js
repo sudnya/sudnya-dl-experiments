@@ -1,6 +1,7 @@
 var binaryOp = function(left, right, op) {
     
-    //assert(left.size() == right.size());
+    assert(left.getDimension().equals(right.getDimension()));
+
     var result = MatrixFactory.createFromSize(left.getDimension());
     binaryOpInPlace(result, left, right, op);
     return result;
@@ -18,6 +19,7 @@ var binaryOpInPlace = function(result, left, right, op) {
 var unaryOp = function(left, op) {
     var result = MatrixFactory.createFromSize(left.getDimension());
     unaryOpInPlace(result, left, op);
+    return result;
 }
 
 var unaryOpInPlace = function(result, left, op) {
