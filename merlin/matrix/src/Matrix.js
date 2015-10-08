@@ -20,6 +20,10 @@ function Matrix (dataBody, beginOffset, matrixDimension, stride) {
         return this.data;
     }
 
+    this.getDataBegin = function() {
+        return this.dataBegin;
+    }
+
     this.get = function(i) {
         var linear = this.dimensionToLinear(i);
 
@@ -37,7 +41,7 @@ function Matrix (dataBody, beginOffset, matrixDimension, stride) {
 
         for (var i = 0; i < this.getDimension().size(); ++i) {
             dimension.pushBack(linear % this.getDimension().get(i));
-            linear = linear / this.getDimension().get(i);
+            linear = Math.floor(linear / this.getDimension().get(i));
         }
 
         return dimension;

@@ -14,8 +14,8 @@ var slice = function(matrix, dimensionBegin, dimensionEnd) {
 }
 
 var sliceWithStride = function(matrix, dimensionBegin, dimensionEnd, stride) {
-    var size            = (dimensionEnd.subtract(dimensionBegin)).divide(stride);
+    var size            = (dimensionEnd.subtract(dimensionBegin)).divideRoundUp(stride);
     var dataBeginOffset = matrix.dimensionToLinear(dimensionBegin);
     
-    return new Matrix(matrix.getData(), dataBeginOffset, size, matrix.getStride().multiply(stride));
+    return new Matrix(matrix.getData(), matrix.getDataBegin() + dataBeginOffset, size, matrix.getStride().multiply(stride));
 }

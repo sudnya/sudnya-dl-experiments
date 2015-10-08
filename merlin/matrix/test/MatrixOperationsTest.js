@@ -48,6 +48,17 @@ QUnit.test( "Matrix Binary Operation", function( assert ) {
     assert.ok(reference.equals(result), "Binary op passed" );
 });
 
+QUnit.test( "Matrix Broadcast Operation", function( assert ) {
+    var matrix1 = MatrixFactory.createFromSizeAndData(new Dimension([3,3]), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    var matrix2 = MatrixFactory.createFromSizeAndData(new Dimension([3]), [1, 2, 3]);
+
+    var reference = MatrixFactory.createFromSizeAndData(new Dimension([3,3]), [2, 4, 6, 5, 7, 9, 8, 10, 12]);
+    
+    var result = broadcast(matrix1, matrix2, function(v1, v2) { return v1 + v2; });
+
+    assert.ok(reference.equals(result), "Broadcast op passed" );
+});
+
 //1,4,7  -> 8 
 //2,5,8  -> 9
 //3,6,9  ->
@@ -60,5 +71,19 @@ QUnit.test( "Matrix Slice", function( assert ) {
     var result = slice(matrix1, new Dimension([1, 2]), new Dimension([3, 3]));
 
     assert.ok(reference.equals(result), "Slice op passed" );
+});
+
+//1,5,9   -> 10 
+//2,6,10  -> 12
+//3,7,11 
+//4,8,12
+QUnit.test( "Matrix Slice with stride", function( assert ) {
+    var matrix1   = MatrixFactory.createFromSizeAndData(new Dimension([4,3]), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    var reference = MatrixFactory.createFromSizeAndData(new Dimension([2,1]), [10, 12]);
+    
+    // Matrix addition
+    var result = sliceWithStride(matrix1, new Dimension([1, 2]), new Dimension([4, 3]), new Dimension([2,2]));
+
+    assert.ok(reference.equals(result), "Slice with stride op passed" );
 });
 

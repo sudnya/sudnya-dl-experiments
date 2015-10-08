@@ -19,6 +19,16 @@ function Dimension(contents) {
         return result;
     }
 
+    this.add = function(right) {
+        var result = new Dimension([]);
+
+        for (var i = 0; i < this.size(); ++i) {
+            result.pushBack(this.get(i) + right.get(i));
+        }
+
+        return result;
+    }
+
     this.multiply = function(right) {
         var result = new Dimension([]);
         assert (this.size() == right.size());
@@ -33,7 +43,17 @@ function Dimension(contents) {
         var result = new Dimension([]);
         assert (this.size() == right.size());
         for (var i = 0; i < this.size(); ++i) {
-            result.pushBack(this.dimensions[i] / right.dimensions[i]);
+            result.pushBack(Math.floor(this.dimensions[i] / right.dimensions[i]));
+        }
+        
+        return result;
+    }
+
+    this.divideRoundUp = function(right) {
+        var result = new Dimension([]);
+        assert (this.size() == right.size());
+        for (var i = 0; i < this.size(); ++i) {
+            result.pushBack(Math.floor((this.dimensions[i] + right.dimensions[i] - 1) / right.dimensions[i]));
         }
         
         return result;
@@ -64,6 +84,16 @@ function Dimension(contents) {
             }
         }
         return retVal;
+    }
+
+    this.contains = function(value) {
+        for (var i = 0; i < this.size(); ++i) {
+            if (this.get(i) == value) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
