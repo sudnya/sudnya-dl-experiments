@@ -87,3 +87,73 @@ var getMissingDimension = function(left, right) {
 
     return missingDim;
 }
+
+var reduce = function(matrix, dimensions, op) {
+    // result dims = input dims - reduced dims
+    var inputDimensions  = matrix.getDimension();
+    var resultDimensions = inputDimensions.removeSelectedDimensions(dimensions);
+
+    var output = MatrixFactory.createFromSize(resultDimensions);
+    
+    var totalElements = output.getElements();
+
+    // iterate over all elements in output    
+    for (var i = 0; i < totalElements; ++i) {
+        var outputPos = output.linearToDimension(i);
+        
+        // slice input to reduce over for this output position
+        var inputSliceBegin = selectBegin(matrix.getDimension(), dimensions, outputPos)
+        var inputSliceEnd   = selectEnd(matrix.getDimension(), dimensions, outputPos)
+
+        var inputSlice = slice(matrix, inputSliceBegin, inputSliceEnd)
+        // iterate over each element in slice and apply op
+        var resultValue = inputSlice.get(inputSlice.linearToDimension(0));
+        
+        var inputSliceElements = inputSlice.getElements();
+
+        for (var j = 1; j < inputSliceElements; ++j) {
+            var inputPos = inputSlice.linearToDimension(j);
+
+            resultValue = op(resultValue, inputSlice.get(inputPos));
+        }
+
+        output.set(outputPos, resultValue);
+    }
+
+    return output;
+}
+
+var selectBegin = function(matrixSize, reduceDimensions, outputPosition) {
+    var resultDims = new Dimension([]);
+    var outputDimension = 0;
+
+    for(var i = 0; i < matrixSize.size(); ++i) {
+        if(reduceDimensions.contains(i)) {
+            resultDims.pushBack(0);
+        }
+        else {
+            resultDims.pushBack(outputPosition.get(outputDimension));
+            ++outputDimension;
+        }
+    }
+
+    return resultDims;
+}
+
+
+var selectEnd = function(matrixSize, reduceDimensions, outputPosition) {
+    var resultDims = new Dimension([]);
+    var outputDimension = 0;
+
+    for(var i = 0; i < matrixSize.size(); ++i) {
+        if(reduceDimensions.contains(i)) {
+            resultDims.pushBack(matrixSize.get(i));
+        }
+        else {
+            resultDims.pushBack(outputPosition.get(outputDimension) + 1);
+            ++outputDimension;
+        }
+    }
+
+    return resultDims;
+}

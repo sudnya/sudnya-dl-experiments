@@ -19,3 +19,4 @@ var sliceWithStride = function(matrix, dimensionBegin, dimensionEnd, stride) {
     
     return new Matrix(matrix.getData(), matrix.getDataBegin() + dataBeginOffset, size, matrix.getStride().multiply(stride));
 }
+

@@ -87,3 +87,49 @@ QUnit.test( "Matrix Slice with stride", function( assert ) {
     assert.ok(reference.equals(result), "Slice with stride op passed" );
 });
 
+//1,2    
+//3,4 => 21
+//5,6 
+QUnit.test( "Matrix Reduce", function( assert ) {
+    var matrix1   = MatrixFactory.createFromSizeAndData(new Dimension([3,2]), [1, 2, 3, 4, 5, 6]);
+    var reference = MatrixFactory.createFromSizeAndData(new Dimension([1]), [21]);
+    
+    // Matrix addition
+    var result = reduce(matrix1, new Dimension([]), function(v1, v2) { return v1+v2; } );
+
+    assert.ok(reference.equals(result), "Reduce op passed" );
+});
+
+//1,2    3
+//3,4 => 7
+//5,6    11
+QUnit.test( "Matrix Reduce", function( assert ) {
+    var matrix1   = MatrixFactory.createFromSizeAndData(new Dimension([3,2]), [1, 2, 3, 4, 5, 6]);
+    var reference = MatrixFactory.createFromSizeAndData(new Dimension([3]), [3,7,11]);
+    
+    // [0] <- [0, 0] -- [1, 2]
+    // [1] <- [1, 0] -- [2, 2]
+    // [2] <- [2, 0] -- [3, 2]
+    //
+    // Matrix addition
+    var result = reduce(matrix1, new Dimension([1]), function(v1, v2) { return v1+v2; } );
+
+    assert.ok(reference.equals(result), "Reduce op passed" );
+});
+
+//1,2    9
+//3,4 => 12
+//5,6 
+QUnit.test( "Matrix Reduce", function( assert ) {
+    var matrix1   = MatrixFactory.createFromSizeAndData(new Dimension([3,2]), [1, 2, 3, 4, 5, 6]);
+    var reference = MatrixFactory.createFromSizeAndData(new Dimension([2]), [9, 12]);
+    
+    // Matrix addition
+    // [0] <- [0, 0] -- [3, 1]  ====>>>>> start [0,0] - size [3, 1]
+    // [1] <- [0, 1] -- [3, 2]  ====>>>>> start [0,1] - size [3, 1]
+    var result = reduce(matrix1, new Dimension([0]), function(v1, v2) { return v1+v2; } );
+
+    assert.ok(reference.equals(result), "Reduce op passed" );
+});
+
+

@@ -95,6 +95,16 @@ function Dimension(contents) {
 
         return false;
     }
+
+    this.removeSelectedDimensions = function(selectedDimensions) {
+        var result = new Dimension([]);
+
+        for (var i = 0 ; i < this.size(); ++i) {
+            if (!selectedDimensions.contains(i)) {
+                result.pushBack(this.get(i));
+            }
+        }
+
+        return result;
+    }
 }
-
-
