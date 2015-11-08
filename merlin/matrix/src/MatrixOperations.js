@@ -89,9 +89,19 @@ var getMissingDimension = function(left, right) {
 }
 
 var reduce = function(matrix, dimensions, op) {
+    if (dimensions.empty()) {
+        for (var i = 0; i < matrix.getDimension().size(); ++i) {
+            dimensions.pushBack(i);
+        }
+    }
+
     // result dims = input dims - reduced dims
     var inputDimensions  = matrix.getDimension();
     var resultDimensions = inputDimensions.removeSelectedDimensions(dimensions);
+
+    if (dimensions.size() == inputDimensions.size()) {
+        resultDimensions.pushBack(1);
+    }
 
     var output = MatrixFactory.createFromSize(resultDimensions);
     

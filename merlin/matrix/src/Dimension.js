@@ -67,6 +67,10 @@ function Dimension(contents) {
         return this.dimensions.length;
     }
 
+    this.empty = function() {
+        return this.size() == 0;
+    }
+
     this.get = function(index) {
         assert (index > -1);
         assert (index < this.size());
